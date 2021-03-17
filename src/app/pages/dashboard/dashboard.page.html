@@ -1,0 +1,267 @@
+<ion-header>
+  <ion-toolbar color="pruksa">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+      <ion-title>Dashboard    {{nowDate}}</ion-title>
+
+    </ion-buttons>
+    <div class="box-title">
+      <div class="items">
+        <button class="btn btn--chackin" (click)="opneModalPerChackin()">Per-Check In</button>
+        <button class="btn btn--chackin" (click)="opneModalChackin()">Check In</button>
+        <button class="btn btn--chackout" (click)="opneModalChackout()">Check Out</button>
+      </div>
+    </div>
+
+
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+
+
+
+
+
+  <div class="container-admin">
+    <div class="container-left">
+      
+      <div class="card">
+        <div class="wrap">
+          <div class="search">
+
+            <form>
+            </form>
+  
+            <mat-form-field appearance="outline" class="selected_searchs">
+              <mat-label>เลือกข้อมูลที่จะค้นหา</mat-label>
+              <mat-select [(ngModel)]="selected_searchs">
+                <mat-option *ngFor="let search of searchs" [value]="search.value">
+                  {{search.viewValue}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            
+
+              <input matInput type="text" class="searchTerm" placeholder="กรอกข้อมูลที่จะค้นหา" (keyup)="updateFilter($event)">
+              <button type="submit" class="searchButton">
+                <ion-icon name="search-outline"></ion-icon>
+             </button>
+
+              
+       
+  
+            <!-- <input type="text" placeholder="Type to filter the name column..."
+            (keyup)="updateFilter($event)"> -->
+            <!-- <input type="submit" value="Search"> -->
+  
+            <!-- <button type="button">Filter</button> -->
+          </div>
+        </div>
+      </div>
+
+
+
+        <div class="datatable">
+          <div class="container">
+            <div class="card-datatable">
+              <div class="data-table-grid">
+
+
+                <!-- Theme classes dark, material, bootstrap -->
+                <ngx-datatable 
+                #table
+                [rows]="visitorList" 
+                [ngClass]="tableStyle" 
+                [rowHeight]="'auto'" 
+                [headerHeight]="50"
+                [loadingIndicator]="isLoading"
+                [columnMode]="'force'" 
+                [limit]="6" 
+                [footerHeight]="50"
+                (activate)="onActivate($event)">
+
+
+                  <ngx-datatable-column name="dateIn">
+                    <ng-template ngx-datatable-header-template>
+                      <span>เวลาเข้า</span>
+                    </ng-template>
+                  </ngx-datatable-column>
+                  <ngx-datatable-column name="houseNum">
+                    <ng-template ngx-datatable-header-template>
+                      <span>เลขที่บ้านที่ไป</span>
+                    </ng-template>
+                  </ngx-datatable-column>
+
+                  <ngx-datatable-column name="vistorCarid" [sortable]="flase">
+                    <ng-template ngx-datatable-header-template>
+                      <span>ทะเบียนรถ</span>
+                    </ng-template>
+
+                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                      <p>{{ row.vistorCarid }}</p>
+                      <!-- <img [src]="row.visitorCardidurl" (click)="ImageClick()" style="width: 70px;height: 40px"> -->
+                      <img [src]="row.visitorCarnumurl" style="width: 70px;height: 40px">
+                    </ng-template>
+
+                  </ngx-datatable-column>
+
+
+                  <ngx-datatable-column name="visitorFullname" [sortable]="flase">
+                    <ng-template ngx-datatable-header-template>
+                      <span>ชื่อ</span>
+                    </ng-template>
+
+                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                      <p>{{ row.visitorFullname }}</p>
+                      <img [src]="row.visitorFaceurl" style="width: 70px;height: 40px">
+                    </ng-template>
+
+                  </ngx-datatable-column>
+
+
+
+                  <ngx-datatable-column name="company" [sortable]="flase">
+                    <ng-template ngx-datatable-header-template>
+                      <span>บริษัท</span>
+                    </ng-template>
+                  </ngx-datatable-column>
+
+                  <ngx-datatable-column name="timestampOut" [sortable]="flase">
+                    <ng-template ngx-datatable-header-template>
+                      <span>เวลาออก</span>
+                    </ng-template>
+                  </ngx-datatable-column>
+
+                  <ngx-datatable-column name="status" >
+                    <ng-template ngx-datatable-header-template>
+                      <span>สถานะ</span>
+                    </ng-template>
+
+                    <ng-template class="ngx-status" let-row="row" let-value="value" ngx-datatable-cell-template>
+                      <p>{{ row.status }}</p>
+                    </ng-template>
+
+                  </ngx-datatable-column>
+
+                  <!-- <ngx-datatable-column name="visitorImg">
+
+                    <ng-template ngx-datatable-header-template>
+                      <span>รูปหน้าผู้เข้า</span>
+                    </ng-template>
+
+                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                      <img [src]="value">
+                    </ng-template>
+
+
+                  </ngx-datatable-column> -->
+
+
+
+
+                  <ngx-datatable-column name="Actions" [sortable]="flase">
+                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                      <ion-button size="small" fill="outline" (click)="open(row)">
+                        SHOW MAP
+                      </ion-button>
+                    </ng-template>
+                  </ngx-datatable-column>
+
+                </ngx-datatable>
+
+
+            </div>
+            </div>
+            
+          </div>
+
+      </div>
+
+
+
+    </div>
+    <!-- container-left -->
+
+
+    <div class="container-right">
+      <div class="box-show">
+        <div class="container">
+          <div class="box-show-grid">
+
+            <div class="card">
+              <div class="box-show-grid-item">
+                <div class="icon">
+                  <ion-icon name="log-in-outline"></ion-icon>
+                </div>
+                <div class="start-text">
+                  <div class="text-left">
+                    <div class="text">
+                      <h2>{{ numIn }} / {{ numOut }}</h2>
+                    </div>
+                    <div class="text-header">
+                      <p>เข้า-ออกพื้นที่ทั้งหมดวันนี้</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card" (click)="showData()">
+              <div class="box-show-grid-item">
+                <div class="icon">
+                  <ion-icon name="locate-outline"></ion-icon>
+                </div>
+
+                <div class="start-text">
+                  <div class="text-left">
+                    <div class="text">
+                      <h2>{{ numInAreamore }}</h2>
+                    </div>
+                    <div class="text-header">
+                      <p>อยู่ในพื้นที่มากกว่าหนึ่งวัน</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+
+
+
+      <div class="card">
+        <div class="box-map">
+          <div class="container">
+            <div class="box-map-grid">
+              <div #map id="map"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+  <!--   
+
+  <ion-button routerLink="/menu/chackin" color="success"> Chack-In</ion-button>
+
+  <ion-button routerLink="/menu/chackout" color="danger"> Chack-Out</ion-button> -->
+
+</ion-content>

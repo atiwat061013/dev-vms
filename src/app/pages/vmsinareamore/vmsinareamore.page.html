@@ -1,0 +1,101 @@
+<ion-header>
+  <ion-toolbar color="pruksa">
+    <ion-title>InArea</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="card">
+    <ngx-datatable 
+  #table
+  [rows]="vInAreaMore" 
+  [ngClass]="tableStyle" 
+  [rowHeight]="'auto'" 
+  [headerHeight]="50"
+  [loadingIndicator]="isLoading"
+  [columnMode]="'force'" 
+  [limit]="6" 
+  [footerHeight]="50">
+
+
+    <ngx-datatable-column name="dateIn">
+      <ng-template ngx-datatable-header-template>
+        <span>เวลาเข้า</span>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="houseNum">
+      <ng-template ngx-datatable-header-template>
+        <span>เลขที่บ้านที่ไป</span>
+      </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="vistorCarid" [sortable]="flase">
+      <ng-template ngx-datatable-header-template>
+        <span>ทะเบียนรถ</span>
+      </ng-template>
+
+      <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+        <p>{{ row.vistorCarid }}</p>
+        <!-- <img [src]="row.visitorCardidurl" (click)="ImageClick()" style="width: 70px;height: 40px"> -->
+        <img [src]="row.visitorCarnumurl" style="width: 70px;height: 40px">
+      </ng-template>
+
+    </ngx-datatable-column>
+
+
+    <ngx-datatable-column name="visitorFullname" [sortable]="flase">
+      <ng-template ngx-datatable-header-template>
+        <span>ชื่อ</span>
+      </ng-template>
+
+      <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+        <p>{{ row.visitorFullname }}</p>
+        <img [src]="row.visitorFaceurl" style="width: 70px;height: 40px">
+      </ng-template>
+
+    </ngx-datatable-column>
+
+
+
+    <ngx-datatable-column name="nameCompany" [sortable]="flase">
+      <ng-template ngx-datatable-header-template>
+        <span>บริษัท</span>
+      </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="timestampOut" [sortable]="flase">
+      <ng-template ngx-datatable-header-template>
+        <span>เวลาออก</span>
+      </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="status">
+      <ng-template ngx-datatable-header-template>
+        <span>สถานะ</span>
+      </ng-template>
+    </ngx-datatable-column>
+
+    <!-- <ngx-datatable-column name="visitorImg">
+
+      <ng-template ngx-datatable-header-template>
+        <span>รูปหน้าผู้เข้า</span>
+      </ng-template>
+
+      <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+        <img [src]="value">
+      </ng-template>
+
+
+    </ngx-datatable-column> -->
+
+
+
+  </ngx-datatable>
+  </div>
+  
+</ion-content>

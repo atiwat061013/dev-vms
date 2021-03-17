@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-toolbar color="pruksa">
+    <ion-title>ShowImage</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div class="showimage">
+    <div class="container">
+      <div class="showimage-grid">
+
+        <div class="showimage-grid-item">
+          <h2>ใบหน้าคน</h2>
+            <img [src]="imgFaceurl" width="300px" height="150px" />
+        </div>
+
+
+        <div class="showimage-grid-item">
+          <h2>บัตรประชาชน</h2>
+            <img [src]="imgCardidurl" width="300px" height="150px" />
+        </div>
+
+
+        <div class="showimage-grid-item">
+          <h2>รูปรถ</h2>
+            <img [src]="imgCarurl" width="300px" height="150px" />
+        </div>
+
+
+        <div class="showimage-grid-item">
+          <h2>ทะเบียนรถ</h2>
+            <img [src]="imgCarnumurl" width="300px" height="150px" />
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- showimage -->
+
+</ion-content>

@@ -1,0 +1,102 @@
+<ion-header>
+  <ion-toolbar color="pruksa">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>vmshistory</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+
+  <div class="ion-padding">
+
+    <!-- Theme classes dark, material, bootstrap -->
+    <ngx-datatable 
+    #mydatatable
+    class="material"
+    [headerHeight]="50"
+    [limit]="5"
+    [footerHeight]="50"
+    rowHeight="auto"
+    [columnMode]="'force'"
+    [rows]="companies"
+      >
+
+
+      <ngx-datatable-column name="Visitorid">
+        <ng-template ngx-datatable-header-template>
+          <span>Visitor ID</span>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="timein">
+        <ng-template ngx-datatable-header-template>
+          <span>เวลาเข้า</span>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="name">
+        <ng-template ngx-datatable-header-template>
+          <span>ชื่อ</span>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="carnum">
+        <ng-template ngx-datatable-header-template>
+          <span>ทะเบียนรถ</span>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="timeout">
+        <ng-template ngx-datatable-header-template>
+          <span>เวลาออก</span>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="housenum">
+        <ng-template ngx-datatable-header-template>
+          <span>เลขที่บ้านที่ไป</span>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="timesum">
+        <ng-template ngx-datatable-header-template>
+          <span>เวลาที่อยู่</span>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="company">
+        <ng-template ngx-datatable-header-template>
+          <span>บริษัท</span>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="status">
+        <ng-template ngx-datatable-header-template>
+          <span>สถานะ</span>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="visitorimg" [sortable]="flase">
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+          <img [src]="value">
+        </ng-template>
+      </ngx-datatable-column>
+
+      <!-- <ngx-datatable-column name="Actions" [sortable]="flase">
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+          <ion-button size="small" fill="outline" (click)="open(row)">
+            SHOW MAP
+          </ion-button>
+        </ng-template>
+      </ngx-datatable-column> -->
+
+
+      
+      
+    </ngx-datatable>
+
+  </div>
+  
+</ion-content>

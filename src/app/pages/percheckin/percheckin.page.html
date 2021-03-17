@@ -1,0 +1,209 @@
+<ion-header>
+  <ion-toolbar color="pruksa">
+    <ion-title>PerCheckin</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <video class='center' #video [hidden]="!scanActive"></video>
+
+  <canvas #canvas hidden></canvas>
+
+  <div class="result" *ngIf="scanResult">
+    <div class="main_content">
+      <div class="showimage">
+        <div class="container">
+          <div class="showimage-grid">
+  
+            <div class="showimage-grid-item">
+              <h2>ใบหน้าคน</h2>
+              <label for="visitorPople">
+                <img *ngIf="visitorPople" [src]="visitorPople" width="300px" height="150px" />
+              </label>
+              <input type="file" id="visitorPople" name="visitorPople" accept="image/png, image/jpeg"
+                (change)="fileFaceChange($event)" />
+              <ion-button (click)="saveFace()" color="success">
+                Save
+              </ion-button>
+            </div>
+  
+            <div class="showimage-grid-item">
+              <h2>บัตรประชาชน</h2>
+              <label for="visitorCard">
+                <img *ngIf="visitorCard" [src]="visitorCard" width="300px" height="150px" />
+              </label>
+              <input type="file" id="visitorCard" name="visitorCard" accept="image/png, image/jpeg"
+                (change)="fileCardidChange($event)" />
+              <ion-button (click)="saveCardid()" color="success">
+                Save
+              </ion-button>
+            </div>
+  
+            <div class="showimage-grid-item">
+              <h2>รูปรถ</h2>
+              <label for="visitorCar">
+                <img *ngIf="visitorCar" [src]="visitorCar" width="300px" height="150px" />
+              </label>
+              <input type="file" id="visitorCar" name="visitorCar" accept="image/png, image/jpeg"
+                (change)="fileCarChange($event)" />
+                <ion-button (click)="saveCar()" color="success">
+                  Save
+                </ion-button>
+            </div>
+  
+            <div class="showimage-grid-item">
+              <h2>ทะเบียนรถ</h2>
+              <label for="visitorCarnum">
+                <img *ngIf="visitorCarnum" [src]="visitorCarnum" width="300px" height="150px" />
+              </label>
+              <input type="file" id="visitorCarnum" name="visitorCarnum" accept="image/png, image/jpeg"
+                (change)="fileCarnumChange($event)" />
+                <ion-button (click)="saveCarnum()" color="success">
+                  Save
+                </ion-button>
+            </div>
+  
+
+  
+          </div>
+        </div>
+      </div>
+      <!-- showimage -->
+  
+      <div class="visitor-form">
+        <div class="container">
+          <div class="visitor-form-grid">
+  
+            <div class="visitor-form-item">
+  
+
+  
+              
+           
+              <form [formGroup]="visitorForm" (ngSubmit)="submitvForm()" novalidate>
+
+                <mat-form-field class="size-full-width">
+                  <mat-label>ชื่่อ-นามสกุล</mat-label>
+                  <input matInput formControlName="vFullName" type="text">
+                </mat-form-field><br>
+  
+                <mat-form-field class="size-full-width">
+                  <mat-label>รหัสบัตรประชาชน</mat-label>
+                  <input matInput formControlName="vTaxId" type="text">
+                </mat-form-field><br>
+  
+                <mat-form-field class="size-full-width">
+                  <mat-label>ที่อยู่</mat-label>
+                  <textarea matInput formControlName="vAddress" type="text"></textarea>
+                </mat-form-field><br>
+  
+                <mat-form-field class="size-half-width">
+                  <mat-label>วันเกิด</mat-label>
+                  <input matInput formControlName="vBirthday" type="text">
+                </mat-form-field>
+  
+                <mat-form-field class="size-half-width">
+                  <mat-label>เพศ</mat-label>
+                  <input matInput formControlName="vGender" type="text">
+                </mat-form-field><br>
+  
+                <!-- <h4>mat-select</h4>
+                <mat-form-field appearance="fill">
+                  <mat-label>Favorite food</mat-label>
+                  <mat-select [(ngModel)]="selectedValue" name="food">
+                    <mat-option *ngFor="let food of foods" [value]="food.value">
+                      {{food.viewValue}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <p> Selected food: {{selectedValue}} </p> -->
+  
+  
+                <mat-form-field class="size-half-width">
+                  <mat-label>ประเภทผู้ติดต่อ</mat-label>
+                  <mat-select formControlName="vType" name="visitortype" id="visitortype">
+                    <mat-option *ngFor="let vType of vTypes" [value]="vType.value">
+                      {{ vType.viewValue }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+  
+  
+                <mat-form-field class="size-half-width">
+                  <input matInput placeholder="ชื่อบริษัท" aria-label="ชื่อบริษัท" [matAutocomplete]="auto"
+                    [formControl]="companyCtrl" (keyup.enter)="enter()">
+                  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="optionSelected($event.option)">
+                    <mat-option *ngFor="let com of filteredStates | async" [value]="com">
+                      <span>{{ com }}</span>
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+  
+  
+  
+                <!-- 
+                <ion-item>
+                  <label>ชื่อบริษัท:</label>
+  
+                  <ionic-selectable [(ngModel)]="selected_company" [ngModelOptions]="{standalone: true}" [items]="company"
+                    itemValueField="id" itemTextField="name" [canSearch]="true">
+                  </ionic-selectable>
+                </ion-item> -->
+  
+                <!-- 
+                <ion-item>
+                <label for="visitor-type">ประเภทผู้ติดต่อ: </label>
+                <select formControlName="vType" name="visitortype" id="visitortype">
+                  <option value="" disabled selected>เลือกประเภทผู้ติดต่อ</option>
+                  <option value="คนส่งอาหาร">คนส่งอาหาร</option>
+                  <option value="ไปรษณีย์">ไปรษณีย์</option>
+                </select>
+              </ion-item> -->
+  
+  
+                <mat-form-field class="size-full-width">
+                  <mat-label>ระบุทะเบียนรถ</mat-label>
+                  <input matInput formControlName="vCarnum" type="text">
+                </mat-form-field><br>
+  
+                <mat-form-field class="size-half-width">
+                  <mat-label>ชั้นที่มาติดต่อ</mat-label>
+                  <input matInput formControlName="floor" type="text">
+                </mat-form-field>
+  
+  
+                <mat-form-field class="size-half-width">
+                  <mat-label>ระบุบ้านเลขที่</mat-label>
+                  <input matInput formControlName="housenum" type="text">
+                </mat-form-field><br>
+  
+                <mat-form-field class="size-full-width">
+                  <mat-label>หมายเหตุ</mat-label>
+                  <input matInput formControlName="vNote" type="text">
+                </mat-form-field><br>
+  
+                <ion-button type="submit" color="danger" expand="block">Submit</ion-button>
+  
+              </form>
+  
+  
+  
+            </div>
+            <!-- visitor-form-item -->
+  
+          </div>
+          <!-- form-grid -->
+        </div>
+        <!-- container -->
+      </div>
+      <!-- visitor-form -->
+    </div>
+  </div>
+
+</ion-content>
