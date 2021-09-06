@@ -7,11 +7,14 @@ import { IonicModule } from '@ionic/angular';
 import { ShowimgfacePageRoutingModule } from './showimgface-routing.module';
 
 import { ShowimgfacePage } from './showimgface.page';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
+    MatInputModule,
     IonicModule,
     ShowimgfacePageRoutingModule
   ],

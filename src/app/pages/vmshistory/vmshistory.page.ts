@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import * as moment from 'moment';
 
 
@@ -7,6 +7,10 @@ import firebase from "firebase/app";
 import "firebase/database";
 import "firebase/storage";
 import "firebase/auth";
+import { SnapshottoarrayService } from 'src/app/services/snapshottoarray.service';
+import { DatatableComponent } from '@swimlane/ngx-datatable';
+import { FormBuilder, FormGroup } from '@angular/forms';
+
 
 
 var db = firebase.database();
@@ -23,6 +27,8 @@ var storageRef = storage.ref();
 
 
 export class VmshistoryPage implements OnInit {
+
+  @ViewChild(DatatableComponent) table: DatatableComponent;
 
   data = [
     {
@@ -174,78 +180,164 @@ export class VmshistoryPage implements OnInit {
 
   ]
 
-  CurrentDate
-  nowDate
-  visitorList
+  CurrentDate: any;
+  nowDate: any;
+  visitorList: any = [];
 
-  private companies = this.data
-  tableStyle ='bootstrap'
+  company: any = [];
+  isLoading = true;
+
+  tableStyle = 'bootstrap'
   customRowClass = false
 
-  constructor() { 
-    console.log(this.companies)
+  searchData: string;
+  temp = [];
+
+
+  searchVisitor: FormGroup;
+
+  vCompanys = [];
+
+  constructor(private objtoarray: SnapshottoarrayService, public formBuilder: FormBuilder) {
+
   }
 
   ngOnInit() {
 
+    db.ref('company').on('value', (snapshot) => {
+      console.log('company>>>>>>', this.objtoarray.objToarray(snapshot))
+      this.company = this.objtoarray.objToarray(snapshot)
 
-    const timestamp = Date.now();
+      this.vCompanys = [];
 
-    this.CurrentDate = moment(timestamp).format('YYYY-MM-DD');
-    this.nowDate = moment().format('LLLL');
-
-    db.ref('visitor').orderByChild('date').equalTo(this.CurrentDate).on('value', (snapshot) => {
-      this.visitorList = snapshotToArray(snapshot)
-
-      console.log("visitorList>>> ",this.visitorList);
-      
-
-      //Convert timestamp to 'YYYY-MM-DD <br> h:mm a'
-      for (var i = 0; i < this.visitorList.length; i++) {
-        var CurrentDate = moment(this.visitorList[i].timestamp).format('YYYY-MM-DD <br> h:mm a')
-        this.visitorList[i].timestamp = CurrentDate
+      for (let i = 0; i < this.company.length; i++) {
+        this.vCompanys.push(this.company[i].name)
       }
+      console.log('companys: ', this.vCompanys);
+
 
     });
 
+    
+    this.searchVisitor = this.formBuilder.group({
+      vFullName: [''],
+      vCompany: [''],
+
+    })
+
+
+    db.ref('company').on('value', (snapshot) => {
+      console.log('companyALL =>', this.objtoarray.objToarray(snapshot))
+      this.company = this.objtoarray.objToarray(snapshot)
+    });
+
+
+    db.ref('visitor').on('value', (snapshot) => {
+      this.visitorList = this.objtoarray.objToarray(snapshot)
+      console.log(this.visitorList);
+
+      this.isLoading = false
+      this.temp = [...this.visitorList];
+      for (var i = 0; i < this.visitorList.length; i++) {
+        var CurrentDate = moment(this.visitorList[i].timestampIn).format('YYYY-MM-DD <br> h:mm a')
+ 
+        this.visitorList[i].dateIn = CurrentDate
+
+        if (this.visitorList[i].timestampOut != "-") {
+          var CurrentDateOut = moment(this.visitorList[i].timestampOut).format('YYYY-MM-DD <br> h:mm a')
+          this.visitorList[i].dateOut = CurrentDateOut
+        }
+
+        if (this.visitorList[i].status == "OUT") {
+          console.log('out');
+          console.log('in', this.visitorList[i].timestampIn, 'out', this.visitorList[i].timestampOut);
+
+
+          let diff = this.visitorList[i].timestampOut - this.visitorList[i].timestampIn;
+
+          let msec = diff;
+          let days = Math.floor(msec / 1000 / 60 / 60 / 24);
+          msec -= days * 1000 * 60 * 60 * 24;
+          let hh = Math.floor(msec / 1000 / 60 / 60);
+          msec -= hh * 1000 * 60 * 60;
+          let mm = Math.floor(msec / 1000 / 60);
+          msec -= mm * 1000 * 60;
+
+          this.visitorList[i].totalTime = days + ' day ' + hh + ' hours ' + mm + ' mins ';
+
+        }
+      }
+      this.getCompany();
+    });
+
+
+
+
+  }
+
+  search() {
+    // console.log('ssss', this.searchData);
+
+    const valFullname = this.searchVisitor.value.vFullName.toLowerCase()
+
+    const valCompany = this.searchVisitor.value.vCompany.toLowerCase()
+
+    console.log('search: ', 'ชื่อ =>'+valFullname +' บริษัท =>'+valCompany);
+    
+
+    console.log('tmmp', this.temp);
+    
+    // filter our data
+    const temps = this.temp.filter(item => {
+   
+      // if(item.visitorFullname != undefined && item.company != undefined){
+      //   return item.visitorFullname.toLowerCase().indexOf(valFullname) !== -1 || !valFullname && 
+      //   item.company.toLowerCase().indexOf(valCompany) !== -1 || !valCompany;
+      //   }
+
+      if(item.visitorFullname != undefined && item.company != undefined ){
+        return (item.visitorFullname.toLowerCase().indexOf(valFullname) !== -1 || !valFullname) && (item.company.toLowerCase().indexOf(valCompany) !== -1 || !valCompany);
+
+        }
+        
+
+    });
+
+    // temps = this.temp.filter(item => {
+  
+    //   if(valFullname != '' && item.company != undefined){
+    //     return item.visitorFullname.toLowerCase().indexOf(valFullname) !== -1 || !valFullname
+    //   }
+
+    // });
+
+    console.log('completeSearch: ', temps);
+
+
+    // update the rows
+    this.visitorList = temps;
+    // Whenever the filter changes, always go back to the first page
+    this.table.offset = 0;
+  }
+
+  getCompany() {
+    for (let k = 0; k < this.visitorList.length; k++) {
+      this.visitorList[k].company = this.getNameCompany(this.visitorList[k].company)
+    }
+
+    return console.log("visitorMapcompany: ", this.visitorList);
+
   }
 
 
-    switchStyle(){
-    if (this.tableStyle == 'dark'){
-      this.tableStyle = 'bootstrap'
-    }else{
-      this.tableStyle = 'dark'
+
+  getNameCompany(id) {
+    for (let i = 0; i < this.company.length; i++) {
+      if (this.company[i].id == id) {
+        return this.company[i].name
+      }
     }
   }
 
-  // getRowClass(row){
-  //   const isMale = row.gender == 'male'
-  //   if (!this.customRowClass){
-  //     return{}
-  //   }
-  //   return{
-  //     'male-row': isMale,
-  //     '12:30-row': !isMale
-  //   }
-  // }
-
-  async open(row){
-    console.log(row)
-  }
 
 }
-
-
-export const snapshotToArray = snapshot => {
-  let returnArr = [];
-
-  snapshot.forEach(childSnapshot => {
-    let item = childSnapshot.val();
-    item.key = childSnapshot.key;
-    returnArr.push(item);
-  });
-
-  return returnArr;
-};
-

@@ -1,174 +1,219 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Kanit;
-}
-
-.container{
-    max-width: auto;
-    width: 100%;
-    margin: 0 auto;
-}
-
-
-.main_content{
-  display: grid;
-  grid-template-columns: 50% 50%;
-}
-
-.showimage{
-    width: 100%;
-    height: auto;
-    background-color: #F1F3F5;
-    padding: 20px;
-}
-.showimage-grid{
-    display: grid;
-    grid-template-rows: 1fr 1fr;
-    grid-template-columns: 1fr 1fr;
-    text-align: center;
-    grid-gap: 1rem;
-    background-color: #ffffff;
-    border-radius: 8px;
-    padding: 20px;
-}
-
-.showimage-grid-item{
-    padding: 20px;
-    transition: .5s ease-in-out;
-    cursor: pointer;
-}
-.showimage-grid-item h2{
-    font-family: Kanit;
-    font-size: 25px;
-    color: #333;
-    margin: 20px 0;
-}
-
-
-.showimage-grid-item>input {
-  display: none;
-}
-
-.mat-autocomplete-panel {
-  position: fixed !important;
-  z-index:100000 !important;
-}
-
-
-
-
-// .showimage-grid-item button{
-//   height: 50px;
-//   width: 50px;
-//   margin-top: 10px;
-//   background-color: DodgerBlue;
-//   border: none;
-//   color: white;
-//   border-radius: 50%;
-//   padding: 10px ;
-//   font-size: 25px;
-//   cursor: pointer;
-//   outline: none;
+// *{
+//     // margin: 0;
+//     // padding: 0;
+//     font-family: Kanit;
 // }
 
-// .showimage-grid-item button:hover{
-//   height: 50px;
-//   width: 50px;
-//   margin-top: 10px;
-//   background-color: rgb(24, 118, 212);
-//   border: none;
-//   color: white;
-//   border-radius: 50%;
-//   padding: 10px ;
-//   font-size: 25px;
-//   cursor: pointer;
-// }
-
-// ///////////////////////////////////////////////////////////////////////
-
-.visitor-form{
-    width: 100%;
-    height: auto;
-    background-color: #F1F3F5;
-    border-radius: 5px;
-    padding: 20px;
-}
-.visitor-form-grid{
-    display: grid;
-    grid-template-rows: auto;
-    grid-gap: 1rem;
-    background-color: #ffffff;
-    border-radius: 8px;
-    padding: 20px;
-}
-
-// .visitor-form-item input[type=text], select, textarea{
+// .container{
+//     max-width: auto;
 //     width: 100%;
-//     padding: 12px 20px;
-//     margin: 8px 0;
-//     display: inline-block;
-//     border: 2.5px solid #ccc;
+//     margin: 0 auto;
+// }
+
+
+// .main_content{
+//   display: grid;
+//   grid-template-columns: 50% 50%;
+// }
+
+// .showimage{
+//     width: 100%;
+//     height: auto;
+//     background-color: #F1F3F5;
+//     padding: 20px;
+// }
+// .showimage-grid{
+//     display: grid;
+//     grid-template-rows: 1fr 1fr;
+//     grid-template-columns: 1fr 1fr;
+//     text-align: center;
+//     grid-gap: 1rem;
+//     background-color: #ffffff;
 //     border-radius: 8px;
-//     box-sizing: border-box;
-//     -webkit-transition: 0.5s;
-//     transition: 0.5s;
-//     outline: none;
+//     padding: 20px;
+// }
+
+// .showimage-grid-item{
+//     padding: 20px;
+//     transition: .5s ease-in-out;
+//     cursor: pointer;
+// }
+// .showimage-grid-item h2{
+//     font-family: Kanit;
+//     font-size: 25px;
+//     color: #333;
+//     margin: 20px 0;
+// }
+
+
+// .progess{
+//   text-align: center;
+// }
+
+// .btn-face ion-button {
+//   text-align: center;
+//   margin: 0px 10px 0px 10px;
+// }
+// // .showimage-grid-item>input {
+// //   display: none;
+// // }
+
+// .mat-autocomplete-panel {
+//   position: fixed !important;
+//   z-index:100000 !important;
+// }
+
+
+
+
+// // .showimage-grid-item button{
+// //   height: 50px;
+// //   width: 50px;
+// //   margin-top: 10px;
+// //   background-color: DodgerBlue;
+// //   border: none;
+// //   color: white;
+// //   border-radius: 50%;
+// //   padding: 10px ;
+// //   font-size: 25px;
+// //   cursor: pointer;
+// //   outline: none;
+// // }
+
+// // .showimage-grid-item button:hover{
+// //   height: 50px;
+// //   width: 50px;
+// //   margin-top: 10px;
+// //   background-color: rgb(24, 118, 212);
+// //   border: none;
+// //   color: white;
+// //   border-radius: 50%;
+// //   padding: 10px ;
+// //   font-size: 25px;
+// //   cursor: pointer;
+// // }
+
+// // ///////////////////////////////////////////////////////////////////////
+
+// .visitor-form{
+//     width: 100%;
+//     height: auto;
+//     background-color: #F1F3F5;
+//     border-radius: 5px;
+//     padding: 20px;
+// }
+// .visitor-form-grid{
+//     display: grid;
+//     grid-template-rows: auto;
+//     grid-gap: 1rem;
+//     background-color: #ffffff;
+//     border-radius: 8px;
+//     padding: 20px;
+// }
+
+// // .visitor-form-item input[type=text], select, textarea{
+// //     width: 100%;
+// //     padding: 12px 20px;
+// //     margin: 8px 0;
+// //     display: inline-block;
+// //     border: 2.5px solid #ccc;
+// //     border-radius: 8px;
+// //     box-sizing: border-box;
+// //     -webkit-transition: 0.5s;
+// //     transition: 0.5s;
+// //     outline: none;
     
+// //   }
+
+// //   .visitor-form-item input[type=text]:focus, select:focus, textarea:focus {
+// //     display: inline-block;
+// //     border: 2.5px solid #8DC73F;
+
+// //   }
+
+// //   .visitor-form-item input[type=submit] {
+// //     width: 100%;
+// //     background-color: #8DC73F;
+// //     color: white;
+// //     padding: 14px 20px;
+// //     margin: 8px 0;
+// //     border: none;
+// //     border-radius: 8px;
+// //     cursor: pointer;
+// //     outline: none;
+// //   }
+
+// //   .visitor-form-item input[type=submit]:hover {
+// //     background-color: #8fd435;
+// //     border: none;
+// //     border-radius: 8px;
+// //     cursor: pointer;
+// //   }
+
+//   .visitor-form-item label{
+//     float: left;
+//     width: 25%;
+//     margin-top: 6px;
+//     font-size: 13px;
+//     color: #72777a;
 //   }
+// //   .visitor-form-item form{
+// //     text-align: start;
+// //   }
 
-//   .visitor-form-item input[type=text]:focus, select:focus, textarea:focus {
-//     display: inline-block;
-//     border: 2.5px solid #8DC73F;
 
-//   }
+// .example-form {
+//   min-width: 150px;
+//   max-width: 500px;
+//   width: 100%;
+// }
 
-//   .visitor-form-item input[type=submit] {
-//     width: 100%;
-//     background-color: #8DC73F;
-//     color: white;
-//     padding: 14px 20px;
-//     margin: 8px 0;
-//     border: none;
-//     border-radius: 8px;
-//     cursor: pointer;
-//     outline: none;
-//   }
+// .size-full-width {
+//   width: 100%;
+// }
 
-//   .visitor-form-item input[type=submit]:hover {
-//     background-color: #8fd435;
-//     border: none;
-//     border-radius: 8px;
-//     cursor: pointer;
-//   }
+// .size-half-width {
+//   width: 50%;
+// }
 
-  .visitor-form-item label{
-    float: left;
-    width: 25%;
-    margin-top: 6px;
-    font-size: 13px;
-    color: #72777a;
+// .mat-form-field {
+//   padding: 8px;
+// }
+
+
+
+/////////////////// new /////////////////////
+ion-content {
+  --background: #e3e4e9;
+  .box-image{
+    padding: 20px;
+    text-align: center;
+    margin: 10px;
+    .tital-image{
+      font-size: 24px;
+      font-family: Kanit;
+      margin-bottom: 10px;
+      margin-top: 10px;
+    }
   }
-//   .visitor-form-item form{
-//     text-align: start;
-//   }
 
-
-.example-form {
-  min-width: 150px;
-  max-width: 500px;
-  width: 100%;
+  .box-form{
+    padding: 20px;
+    mat-form-field {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    }
+    ::ng-deep .mat-form-field-wrapper{
+      margin-bottom: -1.25em;
+   }
+    
+  }
+ 
 }
 
-.size-full-width {
-  width: 100%;
-}
-
-.size-half-width {
-  width: 50%;
-}
-
-.mat-form-field {
-  padding: 8px;
+@media (max-width: 768px) {
+  .btn-save ion-button{
+    size: "small";
+  }
 }

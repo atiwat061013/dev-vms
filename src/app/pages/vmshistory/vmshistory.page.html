@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar color="pruksa">
+  <ion-toolbar color="primary">
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
@@ -9,94 +9,137 @@
 
 <ion-content>
 
+<ion-grid>
+  <ion-row>
+    <ion-col>
+      <ion-card class="card-search">
+        <form [formGroup]="searchVisitor" (ngSubmit)="search()" novalidate>
 
-  <div class="ion-padding">
+          <mat-form-field appearance="outline" class="size-full-width">
+            <mat-label>ชื่่อ-นามสกุล</mat-label>
+            <input matInput formControlName="vFullName" type="text">
+          </mat-form-field>
 
-    <!-- Theme classes dark, material, bootstrap -->
-    <ngx-datatable 
-    #mydatatable
-    class="material"
-    [headerHeight]="50"
-    [limit]="5"
-    [footerHeight]="50"
-    rowHeight="auto"
-    [columnMode]="'force'"
-    [rows]="companies"
+          <mat-form-field appearance="outline" class="size-full-width">
+            <mat-label>บริษัท</mat-label>
+            <mat-select formControlName="vCompany" name="visitorcompany" id="visitorcompany">
+              <mat-option *ngFor="let vCompany of vCompanys" [value]="vCompany">
+                {{ vCompany }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <ion-button type="submit" class="searchButton" (click)="search()">
+            <ion-icon name="search-outline"></ion-icon> Search
+         </ion-button>
+         </form>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col>
+      <ion-card>
+        <div class="datatable">
+          <ngx-datatable 
+      #mydatatable
+      class="material"
+      [headerHeight]="50"
+      [limit]="10"
+      [footerHeight]="50"
+      [loadingIndicator]="isLoading"
+      rowHeight="auto"
+      [columnMode]="'force'"
+      [rows]="visitorList"
       >
-
-
-      <ngx-datatable-column name="Visitorid">
-        <ng-template ngx-datatable-header-template>
-          <span>Visitor ID</span>
-        </ng-template>
-      </ngx-datatable-column>
-
-      <ngx-datatable-column name="timein">
+  
+      <ngx-datatable-column name="dateIn">
         <ng-template ngx-datatable-header-template>
           <span>เวลาเข้า</span>
         </ng-template>
       </ngx-datatable-column>
-
-      <ngx-datatable-column name="name">
-        <ng-template ngx-datatable-header-template>
-          <span>ชื่อ</span>
-        </ng-template>
-      </ngx-datatable-column>
-
-      <ngx-datatable-column name="carnum">
-        <ng-template ngx-datatable-header-template>
-          <span>ทะเบียนรถ</span>
-        </ng-template>
-      </ngx-datatable-column>
-
-      <ngx-datatable-column name="timeout">
-        <ng-template ngx-datatable-header-template>
-          <span>เวลาออก</span>
-        </ng-template>
-      </ngx-datatable-column>
-
-      <ngx-datatable-column name="housenum">
+      <ngx-datatable-column name="houseNum">
         <ng-template ngx-datatable-header-template>
           <span>เลขที่บ้านที่ไป</span>
         </ng-template>
       </ngx-datatable-column>
-
-      <ngx-datatable-column name="timesum">
+  
+      <ngx-datatable-column name="visitorCarid" [sortable]="flase">
         <ng-template ngx-datatable-header-template>
-          <span>เวลาที่อยู่</span>
+          <span>ทะเบียนรถ</span>
         </ng-template>
+  
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+          <p>{{ row.visitorCarid }}</p>
+          <!-- <img [src]="row.visitorCardidurl" (click)="ImageClick()" style="width: 70px;height: 40px"> -->
+          <img [src]="row.visitorCarnumurl" style="width: 70px;height: 40px">
+        </ng-template>
+  
       </ngx-datatable-column>
-
-      <ngx-datatable-column name="company">
+  
+  
+      <ngx-datatable-column name="visitorFullname" [sortable]="flase">
+        <ng-template ngx-datatable-header-template>
+          <span>ชื่อ</span>
+        </ng-template>
+  
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+          <p>{{ row.visitorFullname }}</p>
+          <img [src]="row.visitorFaceurl" style="width: 70px;height: 40px">
+        </ng-template>
+  
+      </ngx-datatable-column>
+  
+      <ngx-datatable-column name="company" [sortable]="flase">
         <ng-template ngx-datatable-header-template>
           <span>บริษัท</span>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="status">
+  
+         <ngx-datatable-column name="visitorType" [sortable]="flase">
+        <ng-template ngx-datatable-header-template>
+          <span>ประเภทผู้มาติดต่อ</span>
+        </ng-template>
+      </ngx-datatable-column>
+  
+      <ngx-datatable-column name="dateOut" [sortable]="flase">
+        <ng-template ngx-datatable-header-template>
+          <span>เวลาออก</span>
+        </ng-template>
+      </ngx-datatable-column>
+  
+      <ngx-datatable-column name="totalTime" [sortable]="flase">
+        <ng-template ngx-datatable-header-template>
+          <span>เวลาที่อยู่</span>
+        </ng-template>
+      </ngx-datatable-column>
+  
+      <ngx-datatable-column name="status" >
         <ng-template ngx-datatable-header-template>
           <span>สถานะ</span>
         </ng-template>
+        
+        <ng-template class="ngx-status" let-row="row" let-value="value" ngx-datatable-cell-template>
+          <div class="color-status" [ngClass]="(row.status=='IN')?'text-in':'text-out'">
+            <p> {{row.status}} </p>
+          </div>
+        </ng-template>
+        
       </ngx-datatable-column>
-
-      <ngx-datatable-column name="visitorimg" [sortable]="flase">
-        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-          <img [src]="value">
+  
+      <ngx-datatable-column name="exitnote" [sortable]="flase">
+        <ng-template ngx-datatable-header-template>
+          <span>หมายเหตุการออก</span>
         </ng-template>
       </ngx-datatable-column>
-
-      <!-- <ngx-datatable-column name="Actions" [sortable]="flase">
-        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-          <ion-button size="small" fill="outline" (click)="open(row)">
-            SHOW MAP
-          </ion-button>
-        </ng-template>
-      </ngx-datatable-column> -->
-
-
-      
-      
-    </ngx-datatable>
-
-  </div>
+  
+  
+      </ngx-datatable>
+        </div>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+  
+</ion-grid>
   
 </ion-content>

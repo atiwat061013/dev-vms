@@ -1,6 +1,6 @@
 <ion-header>
-  <ion-toolbar color="pruksa">
-    <ion-title>Checkin</ion-title>
+  <ion-toolbar color="primary">
+    <ion-title>CheckIn</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="closeModal()">
         <ion-icon slot="icon-only" name="close"></ion-icon>
@@ -8,149 +8,190 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-<ion-content>
+<ion-content class="ion-padding">
 
 
-  <div class="main_content">
-    <div class="showimage">
-      <div class="container">
-        <div class="showimage-grid">
+  <ion-grid>
+    <ion-row>
 
-          <div class="showimage-grid-item">
-            <h2>ใบหน้าคน</h2>
-            <label for="visitorPople">
-              <img *ngIf="visitorPople" [src]="visitorPople" width="300px" height="150px" />
-            </label>
-            <input type="file" id="visitorPople" name="visitorPople" accept="image/png, image/jpeg"
-              (change)="fileFaceChange($event)" />
-            <ion-button (click)="saveFace()" color="success">
-              Save
-            </ion-button>
-          </div>
+      <ion-col sizeLg="6" sizeMd="12">
+        <ion-card class="box-image">
+          <ion-row>
+            <ion-col sizeLg="6" sizeMd="12">
+              <div>
+                <div class="tital-image">ใบหน้าคน</div>
+  
+                <div id="img-face">
+                  <img id="faceImg" [src]="fileFaceImg" width="300px" height="150px" />
+                  <canvas hidden #canvasFace id="canvasFace" width="300" height="150"></canvas>
+                  <video hidden #videoFace id="videoFace" width="300px" height="150px" autoplay></video>
+                </div>
+  
+                <img *ngIf="progresFace == 0" src="assets/image/delete.png" width="25px" height="25px">
+                <img *ngIf="progresFace == 100" src="assets/image/check.png" width="25px" height="25px">
+  
+                <div class="btn-save">
+                  <input type="file" id="inputFace" accept="image/png, image/jpeg" (change)="browseFaceChange($event)"
+                    hidden>
+                  <ion-button size="small" (click)="browseFace()" color="success">
+                    เลือกไฟล์
+                  </ion-button>
+  
+                  <ion-button size="small" id="webcamFace" (click)="webcamFace()" color="success" value="webcam">
+                    webcam
+                  </ion-button>
+                  <ion-button size="small" color="success">
+                    cctv
+                  </ion-button>
+                </div>
+  
+              </div>
+            </ion-col>
+            <ion-col sizeLg="6" sizeMd="12">
+              <div>
+        
+                <div class="tital-image">บัตรประชาชน</div>
+  
+                <div class="img-card">
+                  <img id="cardidImg" [src]="fileCardidImg" width="300px" height="150px" />
+                  <canvas hidden #canvasCardid id="canvasCardid" width="300" height="150"></canvas>
+                  <video hidden #videoCardid id="videoCardid" width="300px" height="150px" autoplay></video>
+                </div>
+  
+                <img *ngIf="progresCardid == 0" src="assets/image/delete.png" width="25px" height="25px">
+                <img *ngIf="progresCardid == 100" src="assets/image/check.png" width="25px" height="25px">
+  
+                <div class="btn-save">
+                  <input type="file" id="inputCardid" name="browseCardid" accept="image/png, image/jpeg"
+                    (change)="browseCardidChange($event)" hidden />
+                  <ion-button size="small" (click)="browseCardid()" color="success">
+                    เลือกไฟล์
+                  </ion-button>
+  
+                  <ion-button size="small" id="webcamCardid" (click)="webcamCardid()" color="success" value="webcam">
+                    webcam
+                  </ion-button>
+                  <ion-button size="small" color="success">
+                    cctv
+                  </ion-button>
+                </div>
+  
+              </div>
+            </ion-col>
+          </ion-row>
+  
+          <ion-row>
+            <ion-col sizeLg="6" sizeMd="12">
+              <div>
+                <div class="tital-image">รูปรถ</div>
+    
+                <div class="img-car">
+                  <img id="carImg" [src]="fileCarImg" width="300px" height="150px" />
+                  <canvas hidden #canvasCar id="canvasCar" width="300" height="150"></canvas>
+                  <video hidden #videoCar id="videoCar" width="300px" height="150px" autoplay></video>
+                </div>
+    
+                <img *ngIf="progresCar == 0" src="assets/image/delete.png" width="25px" height="25px">
+                <img *ngIf="progresCar == 100" src="assets/image/check.png" width="25px" height="25px">
+    
+    
+                <div class="btn-save">
+                  <input type="file" id="inputCar" name="browseCar" accept="image/png, image/jpeg"
+                    (change)="browseCarChange($event)" hidden />
+                  <ion-button size="small" (click)="browseCar()" color="success">
+                    เลือกไฟล์
+                  </ion-button>
+    
+                  <ion-button size="small" id="webcamCar" (click)="webcamCar()" color="success" value="webcam">
+                    webcam
+                  </ion-button>
+                  <ion-button size="small" color="success">
+                    cctv
+                  </ion-button>
+                </div>
+    
+              </div>
+            </ion-col>
+  
+            <ion-col sizeLg="6" sizeMd="12">
+              <div>
+                <div class="tital-image">ทะเบียนรถ</div>
+                <div class="img-carnum">
+                  <img id="carnumImg" [src]="fileCarnumImg" width="300px" height="150px" />
+                  <canvas hidden #canvasCarnum id="canvasCarnum" width="300" height="150"></canvas>
+                  <video hidden #videoCarnum id="videoCarnum" width="300px" height="150px" autoplay></video>
+                </div>
+    
+                <img *ngIf="progresCarnum == 0" src="assets/image/delete.png" width="25px" height="25px">
+                <img *ngIf="progresCarnum == 100" src="assets/image/check.png" width="25px" height="25px">
+    
+                <div class="btn-save">
+                  <input type="file" id="inputCarnum" name="browseCarnum" accept="image/png, image/jpeg"
+                    (change)="browseCarnumChange($event)" hidden />
+                  <ion-button size="small" (click)="browseCarnum()" color="success">
+                    เลือกไฟล์
+                  </ion-button>
+    
+                  <ion-button size="small" id="webcamCarnum" (click)="webcamCarnum()" color="success" value="webcam">
+                    webcam
+                  </ion-button>
+                  <ion-button size="small" color="success">
+                    cctv
+                  </ion-button>
+                </div>
+    
+              </div>
+            </ion-col>
+          </ion-row>
+  
+        </ion-card>
+      </ion-col>
 
-          <div class="showimage-grid-item">
-            <h2>บัตรประชาชน</h2>
-            <label for="visitorCard">
-              <img *ngIf="visitorCard" [src]="visitorCard" width="300px" height="150px" />
-            </label>
-            <input type="file" id="visitorCard" name="visitorCard" accept="image/png, image/jpeg"
-              (change)="fileCardidChange($event)" />
-            <ion-button (click)="saveCardid()" color="success">
-              Save
-            </ion-button>
-          </div>
-
-          <div class="showimage-grid-item">
-            <h2>รูปรถ</h2>
-            <label for="visitorCar">
-              <img *ngIf="visitorCar" [src]="visitorCar" width="300px" height="150px" />
-            </label>
-            <input type="file" id="visitorCar" name="visitorCar" accept="image/png, image/jpeg"
-              (change)="fileCarChange($event)" />
-              <ion-button (click)="saveCar()" color="success">
-                Save
-              </ion-button>
-          </div>
-
-          <div class="showimage-grid-item">
-            <h2>ทะเบียนรถ</h2>
-            <label for="visitorCarnum">
-              <img *ngIf="visitorCarnum" [src]="visitorCarnum" width="300px" height="150px" />
-            </label>
-            <input type="file" id="visitorCarnum" name="visitorCarnum" accept="image/png, image/jpeg"
-              (change)="fileCarnumChange($event)" />
-              <ion-button (click)="saveCarnum()" color="success">
-                Save
-              </ion-button>
-          </div>
-
-          <!-- 
-          <div class="showimage-grid-item">
-            <h2>สิ่งของ</h2>
-            <label for="visitorimg">
-              <img *ngIf="img1" [src]="img1" width="300px" height="150px" />
-            </label>
-            <input type="file" id="visitorimg" name="visitorimg" accept="image/png, image/jpeg"
-              (change)="fileChange($event)" />
-          </div>
-
-          <div class="showimage-grid-item">
-            <h2>+</h2>
-            <label for="visitorimg">
-              <img *ngIf="img1" [src]="img1" width="300px" height="150px" />
-            </label>
-            <input type="file" id="visitorimg" name="visitorimg" accept="image/png, image/jpeg"
-              (change)="fileChange($event)" />
-          </div> -->
-
-
-
-        </div>
-      </div>
-    </div>
-    <!-- showimage -->
-
-    <div class="visitor-form">
-      <div class="container">
-        <div class="visitor-form-grid">
-
-          <div class="visitor-form-item">
-
-            <!-- <div [formGroup]="form">
-                <form [formGroup]="visitorForm" (ngSubmit)="submitForm()">
-
-              <mat-form-field>
-                <mat-label>ชื่่อ-นามสกุล</mat-label>
-                <input matInput formControlName="fullname" type="text" required>
-              </mat-form-field><br>
-
-              <button type="submit" color="danger" expand="block">Submit</button>
-
-            </form>
-
-            </div> -->
-
-
-            <form [formGroup]="visitorForm" (ngSubmit)="submitvForm()" novalidate>
-
-              <mat-form-field class="size-full-width">
+      <ion-col sizeLg="6" sizeMd="12">
+        <ion-card class="box-form">
+          <form [formGroup]="visitorForm" (ngSubmit)="submitvForm()" novalidate>
+          <ion-row>
+            <ion-col>
+              <mat-form-field appearance="outline">
                 <mat-label>ชื่่อ-นามสกุล</mat-label>
                 <input matInput formControlName="vFullName" type="text">
-              </mat-form-field><br>
-
-              <mat-form-field class="size-full-width">
+              </mat-form-field>
+            </ion-col>
+            <ion-col>
+              <mat-form-field appearance="outline">
                 <mat-label>รหัสบัตรประชาชน</mat-label>
                 <input matInput formControlName="vTaxId" type="text">
-              </mat-form-field><br>
+              </mat-form-field>
+            </ion-col>
+          </ion-row>
 
-              <mat-form-field class="size-full-width">
+          <ion-row>
+            <ion-col size="12">
+              <mat-form-field appearance="outline">
                 <mat-label>ที่อยู่</mat-label>
                 <textarea matInput formControlName="vAddress" type="text"></textarea>
-              </mat-form-field><br>
+              </mat-form-field>
+            </ion-col>
+          </ion-row>
 
-              <mat-form-field class="size-half-width">
+          <ion-row>
+            <ion-col>
+              <mat-form-field appearance="outline">
+                <mat-label>เพศ</mat-label>
+                <input matInput formControlName="vGender" type="text">
+              </mat-form-field>
+            </ion-col>
+            <ion-col>
+              <mat-form-field appearance="outline">
                 <mat-label>วันเกิด</mat-label>
                 <input matInput formControlName="vBirthday" type="text">
               </mat-form-field>
+            </ion-col>
+          </ion-row>
 
-              <mat-form-field class="size-half-width">
-                <mat-label>เพศ</mat-label>
-                <input matInput formControlName="vGender" type="text">
-              </mat-form-field><br>
-
-              <!-- <h4>mat-select</h4>
-              <mat-form-field appearance="fill">
-                <mat-label>Favorite food</mat-label>
-                <mat-select [(ngModel)]="selectedValue" name="food">
-                  <mat-option *ngFor="let food of foods" [value]="food.value">
-                    {{food.viewValue}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-              <p> Selected food: {{selectedValue}} </p> -->
-
-
-              <mat-form-field class="size-half-width">
+          <ion-row>
+            <ion-col>
+              <mat-form-field appearance="outline">
                 <mat-label>ประเภทผู้ติดต่อ</mat-label>
                 <mat-select formControlName="vType" name="visitortype" id="visitortype">
                   <mat-option *ngFor="let vType of vTypes" [value]="vType.value">
@@ -158,9 +199,9 @@
                   </mat-option>
                 </mat-select>
               </mat-form-field>
-
-
-              <mat-form-field class="size-half-width">
+            </ion-col>
+            <ion-col>
+              <mat-form-field appearance="outline">
                 <input matInput placeholder="ชื่อบริษัท" aria-label="ชื่อบริษัท" [matAutocomplete]="auto"
                   [formControl]="companyCtrl" (keyup.enter)="enter()">
                 <mat-autocomplete #auto="matAutocomplete" (optionSelected)="optionSelected($event.option)">
@@ -169,121 +210,53 @@
                   </mat-option>
                 </mat-autocomplete>
               </mat-form-field>
+            </ion-col>
+          </ion-row>
 
-
-
-              <!-- 
-              <ion-item>
-                <label>ชื่อบริษัท:</label>
-
-                <ionic-selectable [(ngModel)]="selected_company" [ngModelOptions]="{standalone: true}" [items]="company"
-                  itemValueField="id" itemTextField="name" [canSearch]="true">
-                </ionic-selectable>
-              </ion-item> -->
-
-              <!-- 
-              <ion-item>
-              <label for="visitor-type">ประเภทผู้ติดต่อ: </label>
-              <select formControlName="vType" name="visitortype" id="visitortype">
-                <option value="" disabled selected>เลือกประเภทผู้ติดต่อ</option>
-                <option value="คนส่งอาหาร">คนส่งอาหาร</option>
-                <option value="ไปรษณีย์">ไปรษณีย์</option>
-              </select>
-            </ion-item> -->
-
-
-              <mat-form-field class="size-full-width">
+          <ion-row>
+            <ion-col>
+              <mat-form-field appearance="outline">
                 <mat-label>ระบุทะเบียนรถ</mat-label>
                 <input matInput formControlName="vCarnum" type="text">
-              </mat-form-field><br>
-
-              <mat-form-field class="size-half-width">
+              </mat-form-field>
+            </ion-col>
+            <ion-col>
+              <mat-form-field appearance="outline">
                 <mat-label>ชั้นที่มาติดต่อ</mat-label>
                 <input matInput formControlName="floor" type="text">
               </mat-form-field>
+            </ion-col>
+          </ion-row>
 
-
-              <mat-form-field class="size-half-width">
+          <ion-row>
+            <ion-col>
+              <mat-form-field appearance="outline">
                 <mat-label>ระบุบ้านเลขที่</mat-label>
                 <input matInput formControlName="housenum" type="text">
-              </mat-form-field><br>
-
-              <mat-form-field class="size-full-width">
+              </mat-form-field>
+            </ion-col>
+            <ion-col>
+              <mat-form-field appearance="outline">
                 <mat-label>หมายเหตุ</mat-label>
                 <input matInput formControlName="vNote" type="text">
-              </mat-form-field><br>
+              </mat-form-field>
+            </ion-col>
+          </ion-row>
 
-              <ion-button type="submit" color="danger" expand="block">Submit</ion-button>
+          <ion-row>
+            <ion-col size="12">
+              <ion-button type="submit" color="primary" expand="block">Submit</ion-button>
+            </ion-col>
+          </ion-row>
 
-            </form>
+          
 
+        </form>
+        </ion-card>
+      </ion-col>
 
+    </ion-row>
 
-
-
-            <!-- 
-            <form [formGroup]="myForm" (ngSubmit)="onSubmit()" novalidate>
-              <label for="fullname">ชื่อ-สกุล: </label>
-              <input type="text" name="fullname" formControlName="vFullane" value="อธิวัฒน์ ทองมาก" readonly><br>
-
-              <label for="thaiid">รหัสบัตร: </label>
-              <input type="text" formControlName="vTaxID" id="thaiid" name="thaiid" value="1459900715114"><br>
-
-              <label for="address">ที่อยู่: </label>
-              <textarea name="address" formControlName="vAddress" id="" cols="10" rows="2" placeholder="Address"
-                readonly>216 ซอยอนามัยงามเจริญ31 แขวท่าข้าม เขตบางขุนเทียน กรุงเทพฯ 10150</textarea><br>
-
-              <label for="birthday">วันเกิด: </label>
-              <input type="text" formControlName="vBirthday" name="birthday" placeholder="birthday" value="19/10/2541"
-                readonly><br>
-
-
-              <ion-item>
-                <label>ชื่อบริษัท:</label>
-
-                <ionic-selectable [(ngModel)]="selected_company" [ngModelOptions]="{standalone: true}" [items]="company"
-                  itemValueField="id" itemTextField="name" [canSearch]="true">
-                </ionic-selectable>
-              </ion-item>
-
-
-
-
-
-
-              <label for="visitor-type">ประเภทผู้ติดต่อ: </label>
-              <select formControlName="vType" name="visitortype" id="visitortype">
-                <option value="" disabled selected>เลือกประเภทผู้ติดต่อ</option>
-                <option value="คนส่งอาหาร">คนส่งอาหาร</option>
-                <option value="ไปรษณีย์">ไปรษณีย์</option>
-              </select><br>
-
-              <label for="housenum">ระบุบ้านเลขที่: </label>
-              <input type="text" formControlName="housenum" name="housenum" placeholder="ระบุบ้านเลขที่.."><br>
-
-
-
-              <label for="carnum">ระบุทะเบียนรถ: </label>
-              <input type="text" formControlName="vCarnum" name="carnum" placeholder="ระบุทะเบียนรถ.."><br>
-
-              <label for="note">หมายเหตุ: </label>
-              <input type="text" formControlName="vNote" name="note" placeholder="หมายเหตุ.."><br>
-
-              <input type="submit" value="Submit">
-
-            </form> -->
-
-
-          </div>
-          <!-- visitor-form-item -->
-
-        </div>
-        <!-- form-grid -->
-      </div>
-      <!-- container -->
-    </div>
-    <!-- visitor-form -->
-  </div>
-
+  </ion-grid>
 
 </ion-content>

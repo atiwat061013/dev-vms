@@ -17,6 +17,7 @@ import * as moment from 'moment';
 import { PercheckinPage } from '../percheckin/percheckin.page';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { VmsinareamorePage } from '../vmsinareamore/vmsinareamore.page';
+import { SnapshottoarrayService } from 'src/app/services/snapshottoarray.service';
 
 
 
@@ -52,18 +53,77 @@ export class DashboardPage implements OnInit {
   dateIn = []
 
   inAreamore
-  numInAreamore
+  numInAreamore = 0
   dateInAreamore = []
 
   outArea
   numOut
   dateOut = []
 
-  
-
   CurrentDate
   nowDate
   company
+  companys = [
+    {
+      floor: 1,
+      item: [{
+        "logo": "https://firebasestorage.googleapis.com/v0/b/seen-visitor-management.appspot.com/o/company_logo%2FBNG.jpg?alt=media&token=b2c0fd87-297d-4070-a63e-9b23d4040074",
+        "name": "BRAINERGY"
+      },
+      {
+        "logo": "https://firebasestorage.googleapis.com/v0/b/seen-visitor-management.appspot.com/o/company_logo%2FSeen.jpg?alt=media&token=3dd8f4e3-62ba-4eaf-b837-32249a9145d6",
+        "name": "SEEN DIGITAL"
+      },
+      {
+        "logo": "https://firebasestorage.googleapis.com/v0/b/seen-visitor-management.appspot.com/o/company_logo%2Fcloud.jpg?alt=media&token=b83132e2-8a72-4d17-9983-ccc4807fea00",
+        "name": "Cloud HM"
+      },
+      {
+        "logo": "https://firebasestorage.googleapis.com/v0/b/seen-visitor-management.appspot.com/o/company_logo%2Fbbtec-v2.jpg?alt=media&token=5f31d425-3d28-40c0-9f7e-992b69fc4def",
+        "name": "BB Technology Company Limited"
+      }]
+    },
+    {
+      floor: 2,
+      item: [{
+        "logo": "https://firebasestorage.googleapis.com/v0/b/seen-visitor-management.appspot.com/o/company_logo%2Finnnews.jpg?alt=media&token=aa43bdbf-1e8a-46e0-9c4c-275ac8a89441",
+        "name": "INN Press Company Limited"
+      }]
+    },
+    {
+      floor: 3,
+      item: [{
+        "logo": "https://firebasestorage.googleapis.com/v0/b/seen-visitor-management.appspot.com/o/company_logo%2Fuih-v2.jpg?alt=media&token=7f3533f2-025b-450a-8150-d9b5cf3a0ce9",
+        "name": "United Information"
+      },
+      {
+        "logo": "https://firebasestorage.googleapis.com/v0/b/seen-visitor-management.appspot.com/o/company_logo%2Futel-v2.jpg?alt=media&token=b602b412-7d02-4a4c-81f3-9bdabf5b1c80",
+        "name": "United Telecom Sales and Services"
+      }]
+    },
+    {
+      floor: 4,
+      item: [{
+        "logo": "https://firebasestorage.googleapis.com/v0/b/seen-visitor-management.appspot.com/o/company_logo%2Fyas.jpg?alt=media&token=c34649aa-73fa-4c73-b74c-fe95d03e1146",
+        "name": "YA Sales and Services"
+      },
+      {
+        "logo": "https://firebasestorage.googleapis.com/v0/b/seen-visitor-management.appspot.com/o/company_logo%2Ftopup.jpg?alt=media&token=ec33c54b-a9cd-4255-a8f6-84f88a66c6b4",
+        "name": "Top UP For You Company Limited"
+      }]
+    },
+    {
+      floor: 5,
+      item: [{
+        "logo": "https://firebasestorage.googleapis.com/v0/b/seen-visitor-management.appspot.com/o/company_logo%2Fbch-ventures.jpg?alt=media&token=3f9dc0ea-c0e9-4666-8505-cd911b642444",
+        "name": "BCH VENTURES"
+      },
+      {
+        "logo": "https://firebasestorage.googleapis.com/v0/b/seen-visitor-management.appspot.com/o/company_logo%2Frak.jpg?alt=media&token=d0172a08-f5e4-4a4d-98fa-467107d358cf",
+        "name": "Rakbankered Company Limited"
+      }]
+    },
+  ]
   selected_searchs = "visitorFullname"
 
   temp = [];
@@ -75,18 +135,16 @@ export class DashboardPage implements OnInit {
 
   map: any;
 
-  constructor(private modalController: ModalController) {
+  constructor(private modalController: ModalController, private objtoarray: SnapshottoarrayService) {
   }
 
   ngOnInit() {
-    
+
 
     db.ref('company').on('value', (snapshot) => {
-      console.log('company>>>>>>', snapshotToArray(snapshot))
+      console.log('companyALL =>', snapshotToArray(snapshot))
       this.company = snapshotToArray(snapshot)
     });
-
-
 
     const timestamp = Date.now();
 
@@ -96,17 +154,19 @@ export class DashboardPage implements OnInit {
     db.ref('visitor').orderByChild('date').equalTo(this.CurrentDate).on('value', (snapshot) => {
 
 
-      this.visitorList = snapshotToArray(snapshot)
+      // this.visitorList = snapshotToArray(snapshot)
+
+      this.visitorList = this.objtoarray.objToarray(snapshot)
 
 
       this.temp = [...this.visitorList];
 
-      console.log("visitorList>>> ", this.visitorList);
+      console.log("visitorListTODAY>>> ", this.visitorList);
 
 
       //Convert timestamp to 'YYYY-MM-DD <br> h:mm a'
       for (var i = 0; i < this.visitorList.length; i++) {
-        var CurrentDate = moment(this.visitorList[i].timestamp).format('YYYY-MM-DD <br> h:mm a')
+        var CurrentDate = moment(this.visitorList[i].timestampIn).format('YYYY-MM-DD <br> h:mm a')
         // this.visitorList[i].timestamp = CurrentDate
 
         this.visitorList[i].dateIn = CurrentDate
@@ -125,20 +185,20 @@ export class DashboardPage implements OnInit {
     });
 
 
-
-
     this.getNumCueckIn()
     this.getNumCueckOut()
     this.getNumInAreaMore()
     
-
-
-
   }
 
   ionViewDidEnter() {
     this.loadMap();
 
+  }
+
+  onSelect(value){
+    console.log(value);
+    this.selected_searchs = value
   }
 
 
@@ -194,10 +254,12 @@ export class DashboardPage implements OnInit {
     
     console.log('timenow: ',timestamp);
 
-    db.ref('visitor').orderByChild('timestamp').endAt(timestamp).on('value', (snapshot) => {
+    db.ref('visitor').orderByChild('timestampIn').endAt(timestamp).on('value', (snapshot) => {
       this.inAreamore = snapshotToArray(snapshot)
       console.log('inMore',this.inAreamore);
 
+      this.numInAreamore = 0
+      this.dateInAreamore = []
       this.inAreamore.forEach(element => {
           if (element.status == "IN") {
           this.dateInAreamore.push(element)
@@ -232,10 +294,7 @@ export class DashboardPage implements OnInit {
       const modal = await this.modalController.create({
         component: ShowimgfacePage,
         componentProps: {
-          imgFaceurl: event.row.visitorFaceurl,
-          imgCardidurl: event.row.visitorCardidurl,
-          imgCarurl: event.row.visitorCarurl,
-          imgCarnumurl: event.row.visitorCarnumurl,
+          visitorData: {visitorData :event.row},
         },
         cssClass: 'my-custom-modal-css'
       });
@@ -250,7 +309,7 @@ export class DashboardPage implements OnInit {
       this.visitorList[k].company = this.getNameCompany(this.visitorList[k].company)
     }
 
-    return console.log("company: ", this.visitorList);
+    return console.log("visitorMapcompany: ", this.visitorList);
 
   }
 
@@ -325,7 +384,7 @@ export class DashboardPage implements OnInit {
       } else if (this.selected_searchs == "visitorFullname") {
         return item.visitorFullname.toLowerCase().indexOf(val) !== -1 || !val;
       } else if (this.selected_searchs == "vistorCarid") {
-        return item.vistorCarid.toLowerCase().indexOf(val) !== -1 || !val;
+        return item.visitorCarid.toLowerCase().indexOf(val) !== -1 || !val;
       }
 
     });

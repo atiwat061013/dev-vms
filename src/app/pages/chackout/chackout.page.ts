@@ -65,6 +65,10 @@ export class ChackoutPage implements OnInit {
 
   async closeModal() {
     await this.modalController.dismiss();
+
+    this.video.nativeElement.pause();
+    (this.video.nativeElement.srcObject as MediaStream).getVideoTracks()[0].stop();
+    this.video.nativeElement.srcObject = null;
   }
 
   async startScan() {
@@ -171,6 +175,7 @@ export class ChackoutPage implements OnInit {
       timeOut: CurrentTime,
       timestampOut: timestampnow
     });
+    this.modalController.dismiss();
   }
 
   getCompany(){

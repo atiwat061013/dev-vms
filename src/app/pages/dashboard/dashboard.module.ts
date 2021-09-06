@@ -11,6 +11,7 @@ import { DashboardPage } from './dashboard.page';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import {MatSelectModule} from '@angular/material/select';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatInputModule } from '@angular/material/input';
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     NgxDatatableModule,
     MatSelectModule,
     MatAutocompleteModule,
+    MatInputModule,
   ],
   declarations: [DashboardPage]
 })

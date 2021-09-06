@@ -25,7 +25,9 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 
+@import url("https://fonts.googleapis.com/css2?family=Kanit&display=swap");
 
+/* NGX Datatable CSS */
 @import '~@swimlane/ngx-datatable/index.css';
 @import '~@swimlane/ngx-datatable/themes/dark.css';
 @import '~@swimlane/ngx-datatable/themes/bootstrap.css';
@@ -33,6 +35,9 @@
 @import '~@swimlane/ngx-datatable/assets/icons.css';
 
 
+* {
+    font-family: "Kanit", sans-serif !important;
+  }
 
 .my-custom-modal-css .modal-wrapper {
     height: 90%;
@@ -41,3 +46,10 @@
     position: absolute; 
     display: block;  
  }
+
+ .male-row {
+  background-color: green !important;
+}
+.female-row {
+  background-color: red  !important;
+}

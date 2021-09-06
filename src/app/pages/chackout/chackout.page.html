@@ -1,154 +1,207 @@
 <ion-header>
-  <ion-toolbar color="pruksa">
+  <ion-toolbar color="primary">
     <ion-title>Checkout</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="closeModal()">
         <ion-icon slot="icon-only" name="close"></ion-icon>
       </ion-button>
     </ion-buttons>
-
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <!-- <ion-button expand='full' (click)="startScan()" >
-    <ion-icon slot="start" name="qr-scanner"></ion-icon>
-    Start scan
-  </ion-button> -->
+<ion-content class="ion-padding">
+
+
+  <ion-grid>
+    <ion-row>
+      <ion-col class="ion-text-center" size="12">
+        <video class='center' #video [hidden]="!scanActive"></video>
+        <canvas #canvas hidden></canvas>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
 
 
-  <video class='center' #video [hidden]="!scanActive"></video>
-
-  <canvas #canvas hidden></canvas>
-
-  <!-- <ion-button expand='full' (click)="stopScan()" color="warning" *ngIf="scanActive" >
-    <ion-icon slot="start" name="refresh"></ion-icon>
-    Reset
-  </ion-button> -->
 
 
   <div class="result" *ngIf="scanResult">
-    <!-- <h3>VisitorID: {{ scanResult }}</h3> -->
 
-    <div class="main-content">
-      <div class="show-img">
-        <div class="card">
-          <div class="show-img-grid">
-            <div class="show-img-item">
-              <h2>ใบหน้าคน</h2>
-              <img [src]="visitorData.visitorFaceurl" width="300px" height="150px">
-            </div>
+    <ion-grid>
+    <ion-row>
+      <ion-col sizeLg="6" sizeMd="12">
+        <ion-card class="box-image">
+          <ion-row>
+            <ion-col sizeLg="6" sizeMd="12">
+              <div>
+                <div class="tital-image">ใบหน้าคน</div>
+                <div id="img-face">
+                  <img [src]="visitorData.visitorFaceurl" width="300px" height="150px">
+                </div>
+              </div>
+            </ion-col>
+            <ion-col sizeLg="6" sizeMd="12">
+              <div>
 
-            <div class="show-img-item">
-              <h2>บัตรประชาชน</h2>
-              <img [src]="visitorData.visitorCardidurl" width="300px" height="150px">
-            </div>
+                <div class="tital-image">บัตรประชาชน</div>
+
+                <div class="img-card">
+                  <img [src]="visitorData.visitorCardidurl" width="300px" height="150px">
+                </div>
+
+              </div>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col sizeLg="6" sizeMd="12">
+              <div>
+                <div class="tital-image">รูปรถ</div>
+
+                <div class="img-car">
+                  <img [src]="visitorData.visitorCarurl" width="300px" height="150px">
+                </div>
+
+              </div>
+            </ion-col>
+
+            <ion-col sizeLg="6" sizeMd="12">
+              <div>
+                <div class="tital-image">ทะเบียนรถ</div>
+                <div class="img-carnum">
+                  <img [src]="visitorData.visitorCarnumurl" width="300px" height="150px">
+                </div>
+
+              </div>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="12">
+              <ion-button expand='full' color="success" (click)="allowOut()">
+                อนุญาติให้ออก
+              </ion-button>
+              <ion-button expand='full' color="danger">
+                ไม่อนุญาติให้ออก
+              </ion-button>
+              <ion-button expand='full' (click)="reset()" color="warning" *ngIf="scanResult">
+                <ion-icon slot="start" name="refresh"></ion-icon>
+                Reset
+              </ion-button>
+            </ion-col>
+          </ion-row>
+
+        </ion-card>
+      </ion-col>
+      <ion-col sizeLg="6" sizeMd="12">
+        <ion-card class="box-form">
+          <ion-row>
+            <ion-col>
+              <mat-form-field appearance="outline">
+                <mat-label>ชื่่อ-นามสกุล</mat-label>
+                <input matInput value="{{ visitorData.visitorFullname }}" readonly>
+              </mat-form-field>
+            </ion-col>
+            <ion-col>
+              <mat-form-field appearance="outline">
+                <mat-label>รหัสบัตรประชาชน</mat-label>
+                <input matInput value="{{ visitorData.visitorTaxid }}" readonly>
+              </mat-form-field>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="12">
+              <mat-form-field appearance="outline">
+                <mat-label>ที่อยู่</mat-label>
+                <textarea matInput value="{{ visitorData.visitorAddress }}" readonly></textarea>
+              </mat-form-field>
+            </ion-col>
+          </ion-row>
 
 
-            <div class="show-img-item">
-              <h2>รูปรถ</h2>
-              <img [src]="visitorData.visitorCarurl" width="300px" height="150px">
-            </div>
+          <ion-row>
+            <ion-col>
+              <mat-form-field appearance="outline">
+                <mat-label>เพศ</mat-label>
+                <input matInput value="{{ visitorData.visitorGender }}" readonly>
+              </mat-form-field>
+            </ion-col>
+            <ion-col>
+              <mat-form-field appearance="outline">
+                <mat-label>วันเกิด</mat-label>
+                <input matInput value="{{ visitorData.visitorBirthday }}" readonly>
+              </mat-form-field>
+            </ion-col>
+          </ion-row>
 
-            <div class="show-img-item">
-              <h2>ทะเบียนรถ</h2>
-              <img [src]="visitorData.visitorCarnumurl" width="300px" height="150px">
-            </div>
-          </div>
-          <!-- show-img-grid -->
+          
+          <ion-row>
+            <ion-col>
+              <mat-form-field appearance="outline">
+                <mat-label>ประเภทผู้ติดต่อ</mat-label>
+                <input matInput value="{{ visitorData.visitorType }}" readonly>
+              </mat-form-field>
+            </ion-col>
+            <ion-col>
+              <mat-form-field appearance="outline">
+                <mat-label>ชื่อบริษัท</mat-label>
+                <input matInput value="{{ visitorData.company }}" readonly>
+              </mat-form-field>
+            </ion-col>
+          </ion-row>
 
-        </div>
-        <!-- card -->
-        
-    <ion-button expand='full' color="success" (click)="allowOut()">
-      อนุญาติให้ออก
-    </ion-button>
-    <ion-button expand='full' color="danger">
-      ไม่อนุญาติให้ออก
-    </ion-button>
-    <ion-button expand='full' (click)="reset()" color="warning" *ngIf="scanResult">
-      <ion-icon slot="start" name="refresh"></ion-icon>
-      Reset
-    </ion-button>
-    
-      </div>
-      <!-- show-img -->
+          
+          <ion-row>
+            <ion-col>
+              <mat-form-field appearance="outline">
+                <mat-label>ระบุทะเบียนรถ</mat-label>
+                <input matInput value="{{ visitorData.visitorCarid }}" readonly>
+              </mat-form-field>
+            </ion-col>
+            <ion-col>
+              <mat-form-field appearance="outline">
+                <mat-label>ชั้นที่มาติดต่อ</mat-label>
+                <input matInput value="{{ visitorData.visitorFloor }}" readonly>
+              </mat-form-field>
+            </ion-col>
+          </ion-row>
 
-      <div class="show-data">
-        <div class="card">
+          <ion-row>
+            <ion-col>
+              <mat-form-field appearance="outline">
+                <mat-label>ระบุบ้านเลขที่</mat-label>
+                <input matInput value="{{ visitorData.houseNum }}" readonly>
+              </mat-form-field>
+            </ion-col>
+            <ion-col>
+              <mat-form-field appearance="outline">
+                <mat-label>หมายเหตุ</mat-label>
+                <input matInput value="{{ visitorData.visitorNote }}" readonly>
+              </mat-form-field>
+            </ion-col>
+          </ion-row>
 
-          <mat-form-field class="size-full-width">
-            <mat-label>ชื่่อ-นามสกุล</mat-label>
-            <input matInput value="{{ visitorData.visitorFullname }}" readonly>
-          </mat-form-field><br>
-  
-          <mat-form-field class="size-full-width">
-            <mat-label>รหัสบัตรประชาชน</mat-label>
-            <input matInput value="{{ visitorData.visiitorTaxid }}" readonly>
-          </mat-form-field><br>
-  
-          <mat-form-field class="size-full-width">
-            <mat-label>ที่อยู่</mat-label>
-            <textarea matInput value="{{ visitorData.visitorAddress }}" readonly></textarea>
-          </mat-form-field><br>
-  
-          <mat-form-field class="size-half-width">
-            <mat-label>วันเกิด</mat-label>
-            <input matInput value="{{ visitorData.visitorBirthday }}" readonly>
-          </mat-form-field>
-  
-          <mat-form-field class="size-half-width">
-            <mat-label>เพศ</mat-label>
-            <input matInput value="{{ visitorData.visitorGender }}" readonly>
-          </mat-form-field><br>
-  
-          <mat-form-field class="size-half-width">
-            <mat-label>ประเภทผู้ติดต่อ</mat-label>
-            <input matInput value="{{ visitorData.visitorType }}" readonly>
-          </mat-form-field>
-  
-          <mat-form-field class="size-half-width">
-            <mat-label>ชื่อบริษัท</mat-label>
-            <input matInput value="{{ visitorData.company }}" readonly>
-          </mat-form-field><br>
-  
-          <mat-form-field class="size-full-width">
-            <mat-label>ระบุทะเบียนรถ</mat-label>
-            <input matInput value="{{ visitorData.vistorCarid }}" readonly>
-          </mat-form-field>
-  
-          <mat-form-field class="size-half-width">
-            <mat-label>ชั้นที่มาติดต่อ</mat-label>
-            <input matInput value="{{ visitorData.visitorFloor }}" readonly>
-          </mat-form-field>
-  
-          <mat-form-field class="size-half-width">
-            <mat-label>ระบุบ้านเลขที่</mat-label>
-            <input matInput value="{{ visitorData.houseNum }}" readonly>
-          </mat-form-field><br>
-  
-          <mat-form-field class="size-full-width">
-            <mat-label>หมายเหตุ</mat-label>
-            <input matInput value="{{ visitorData.vistorNote }}" readonly>
-          </mat-form-field><br>
-  
-          <mat-form-field class="size-full-width">
-            <mat-label>วันที่เข้า</mat-label>
-            <input matInput value="{{ visitorData.date }}" readonly>
-          </mat-form-field><br>
-  
-  
-          <mat-form-field class="size-full-width">
-            <mat-label>เวลาเข้า</mat-label>
-            <input matInput value="{{ visitorData.timeIn }}" readonly>
-          </mat-form-field><br>
-  
+          <ion-row>
+            <ion-col>
+              <mat-form-field appearance="outline">
+                <mat-label>วันที่เข้า</mat-label>
+                <input matInput value="{{ visitorData.date }}" readonly>
+              </mat-form-field>    
+            </ion-col>
+            <ion-col>
+              <mat-form-field appearance="outline">
+                <mat-label>เวลาเข้า</mat-label>
+                <input matInput value="{{ visitorData.timeIn }}" readonly>
+              </mat-form-field>
+            </ion-col>
+          </ion-row>
 
-        </div>
-        
-      </div>
-    </div>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
 
 
   </div>

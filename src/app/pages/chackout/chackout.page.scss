@@ -1,70 +1,90 @@
-*{
-    margin: 0;
-    padding: 0;
+
+// .center { 
+//     margin: 0 auto; 
+//     width: 400px; 
+//     text-align: center;
+//     display: block
+
+// }
+
+
+// .main-content {
+//     display: grid;
+//     grid-template-columns: 50% 50%;
     
-    font-family: Kanit;
-}
+// }
 
-.center { 
-    margin: 0 auto; 
-    width: 400px; 
-    text-align: center;
-    display: block
-
-}
-
-
-.main-content {
-    display: grid;
-    grid-template-columns: 50% 50%;
-    
-}
-
-.size-full-width {
-    width: 100%;
-}
+// .size-full-width {
+//     width: 100%;
+// }
   
-.size-half-width {
-    width: 50%;
-}
+// .size-half-width {
+//     width: 50%;
+// }
 
   
-.mat-form-field {
-    padding: 8px;
-}
+// .mat-form-field {
+//     padding: 8px;
+// }
 
 
-.card {
-    text-align: center;
-    grid-gap: 1rem;
-    background-color: #ffffff;
-    border-radius: 8px;
-    padding: 20px;
-}
+// .card {
+//     text-align: center;
+//     grid-gap: 1rem;
+//     background-color: #ffffff;
+//     border-radius: 8px;
+//     padding: 20px;
+// }
 
-.show-img {
-    width: 100%;
-    height: auto;
-    background-color: #F1F3F5;
-    padding: 10px;
+// .show-img {
+//     width: 100%;
+//     height: auto;
+//     background-color: #F1F3F5;
+//     padding: 10px;
     
-}
+// }
 
-.show-img h2 {
-    font-family: Kanit;
-}
+// .show-img h2 {
+//     font-family: Kanit;
+// }
 
-.show-img-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-}
+// .show-img-grid {
+//     display: grid;
+//     grid-template-columns: 1fr 1fr;
+//     grid-template-rows: 1fr 1fr;
+// }
 
 ////////////////////////////////////////////////////////////////////////
 
-.show-data {
-    width: 100%;
-    height: auto;
-    background-color: #F1F3F5;
-    padding: 10px;
+// .show-data {
+//     width: 100%;
+//     height: auto;
+//     background-color: #F1F3F5;
+//     padding: 10px;
+// }
+
+ion-content {
+    --background: #e3e4e9;
+    .box-image{
+        padding: 20px;
+        text-align: center;
+        margin: 10px;
+        .tital-image{
+          font-size: 24px;
+          margin-bottom: 10px;
+          margin-top: 10px;
+        }
+      }
+      .box-form{
+        padding: 20px;
+        mat-form-field {
+        width: 100%;
+        padding: 0;
+        margin: 0;
+        }
+        ::ng-deep .mat-form-field-wrapper{
+          margin-bottom: -1.25em;
+       }
+        
+      }
 }
